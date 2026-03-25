@@ -8,6 +8,8 @@ from imblearn.over_sampling import SMOTENC
 from imblearn.combine import SMOTEENN
 import category_encoders as ce
 from sklearn.preprocessing import LabelEncoder
+import joblib
+import os
 
 def clean_base_data(df):
     """Removes IDs and problematic categories."""
@@ -58,10 +60,11 @@ def apply_smoteenn(X_train, y_train, categorical_cols):
     
     return smote_enn.fit_resample(X_train, y_train)
 
-def apply_custom_encoding(X_train, X_test, y_train):
+
+def apply_custom_encoding(X_train, X_test, y_train, save_dir=None):
     """
-    Applies Label Encoding to simple categoricals and 
-    Target Encoding to complex categoricals.
+    Applies Label Encoding and Target Encoding.
+    If save_dir is provided, exports the fitted encoders for web deployment.
     """
     X_train_enc = X_train.copy()
     X_test_enc = X_test.copy()
@@ -70,18 +73,31 @@ def apply_custom_encoding(X_train, X_test, y_train):
     X_train_enc['smoking_status'] = X_train_enc['smoking_status'].replace('Unknown', np.nan)
     X_test_enc['smoking_status'] = X_test_enc['smoking_status'].replace('Unknown', np.nan)
     
-    # 2. Label Encoding for binary/simple categorical columns
+    # 2. Label Encoding
     cols_to_labl = ['gender', 'ever_married', 'Residence_type']
+    label_encoders = {} # Tạo từ điển lưu trữ
+    
     for col in cols_to_labl:
         le = LabelEncoder()
         X_train_enc[col] = le.fit_transform(X_train_enc[col])
         X_test_enc[col] = le.transform(X_test_enc[col])
+        label_encoders[col] = le # Lưu lại encoder đã fit
         
-    # 3. Target Encoding for complex categorical columns
+    # 3. Target Encoding
     cols_to_target = ['work_type', 'smoking_status']
+    target_encoders = {} # Tạo từ điển lưu trữ
+    
     for col in cols_to_target:
         te = ce.TargetEncoder(cols=[col])
         X_train_enc[col] = te.fit_transform(X_train_enc[col], y_train)
         X_test_enc[col] = te.transform(X_test_enc[col])
+        target_encoders[col] = te # Lưu lại encoder đã fit
+        
+    # 4. Lưu ra file nếu có yêu cầu (Dành cho Web)
+    if save_dir:
+        os.makedirs(save_dir, exist_ok=True)
+        joblib.dump(label_encoders, os.path.join(save_dir, 'label_encoders.pkl'))
+        joblib.dump(target_encoders, os.path.join(save_dir, 'target_encoders.pkl'))
+        print(f"Đã lưu các encoders tại: {save_dir}")
         
     return X_train_enc, X_test_enc

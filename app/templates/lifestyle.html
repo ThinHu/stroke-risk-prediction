@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hiểu Về Đột Quỵ & Lối Sống Khỏe | StrokePredict AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .fade-in { animation: fadeIn 0.8s ease-out forwards; opacity: 0; }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(20px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        /* Tuỳ chỉnh thanh cuộn cho mượt */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-thumb { background: #93c5fd; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+    </style>
+
+    <link rel="icon" type="image/png" href="{{ url_for('static', path='/img/favicon.png') }}">
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased leading-relaxed">
+
+    <nav class="bg-blue-600 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="font-bold text-xl tracking-wider flex items-center gap-2">
+                <img src="{{ url_for('static', path='/img/favicon.png') }}" alt="StrokePredict Logo" class="w-6 h-6 object-contain rounded">
+                StrokePredict AI
+            </div>
+            <div class="space-x-5 hidden md:block">
+                <a href="/" class="hover:text-blue-200 transition-colors">Dự đoán</a>
+                <a href="/first-aid" class="hover:text-blue-200 transition-colors">Sơ cứu</a>
+                <a href="/lifestyle" class="text-blue-200 font-semibold border-b-2 border-blue-200 pb-1">Nếp sống</a>
+            </div>
+        </div>
+    </nav>
+
+
+    <main class="max-w-6xl mx-auto px-4 py-12">
+        
+        <section class="mb-16 fade-in">
+            <div class="flex flex-col md:flex-row gap-8 items-center bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
+                
+                <div class="md:w-1/2">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-4 border-l-4 border-blue-500 pl-4">Đột Quỵ Là Gì?</h2>
+                    <p class="text-slate-600 text-justify">
+                        Đột quỵ (tai biến mạch máu não) là tình trạng khẩn cấp khi dòng máu mang oxy và dưỡng chất lên não bị gián đoạn đột ngột. Chỉ trong vài phút thiếu máu, hàng triệu tế bào não sẽ bắt đầu chết đi, để lại những di chứng nặng nề về vận động, ngôn ngữ, hoặc thậm chí đe dọa tính mạng.
+                    </p>
+                </div>
+                
+                <div class="md:w-1/2 w-full">
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-4 bg-blue-50 p-4 rounded-xl border border-blue-100 shadow-sm transition-transform hover:-translate-y-1">
+                            <img src="{{ url_for('static', path='/img/blood.png') }}" alt="Blood icon" class="w-6 h-6 object-contain rounded">
+                
+                            <div>
+                                <strong class="text-blue-800 text-lg block mb-1">Nhồi máu não (85%)</strong> 
+                                <span class="text-slate-700">Do cục máu đông hoặc mảng xơ vữa làm tắc nghẽn động mạch.</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-4 bg-red-50 p-4 rounded-xl border border-red-100 shadow-sm transition-transform hover:-translate-y-1">
+                            <img src="{{ url_for('static', path='/img/explosion.png') }}" alt="Brain hemorrhage icon" class="w-6 h-6 object-contain rounded">
+                
+                            <div>
+                                <strong class="text-red-800 text-lg block mb-1">Xuất huyết não (15%)</strong> 
+                                <span class="text-slate-700">Do mạch máu mỏng yếu bị vỡ, khiến máu tràn ra chèn ép mô não.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+
+            </div>
+        </section>
+
+        <section class="mb-16 fade-in delay-100">
+            <!-- <h2 class="text-3xl font-bold text-center text-slate-900 mb-10">Bản Đồ Cảnh Báo Nguy Cơ</h2> -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        Yếu tố tự nhiên (Không thể thay đổi)
+                    </h3>
+                    <ul class="space-y-3 text-slate-600">
+                        <li class="p-3 bg-slate-50 rounded flex gap-2">
+                            <strong class="whitespace-nowrap text-slate-800">Tuổi tác:</strong> 
+                            <span>Rủi ro tăng vọt sau 55 tuổi, cứ mỗi 10 năm tỷ lệ mắc lại nhân đôi.</span>
+                        </li>
+                        <li class="p-3 bg-slate-50 rounded flex gap-2">
+                            <strong class="whitespace-nowrap text-slate-800">Giới tính:</strong> 
+                            <span>Nam giới có tỷ lệ mắc cao hơn nữ giới ở cùng độ tuổi.</span>
+                        </li>
+                        <li class="p-3 bg-slate-50 rounded flex gap-2">
+                            <strong class="whitespace-nowrap text-slate-800">Di truyền:</strong> 
+                            <span>Có người thân từng bị tai biến sẽ khiến nguy cơ của bạn cao hơn.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 shadow-md border-t-4 border-blue-400">
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <img src="{{ url_for('static', path='/img/caution.png') }}" alt="Caution icon" class="w-6 h-6 object-contain">
+                        Yếu tố bệnh lý & Thói quen (Cần kiểm soát)
+                    </h3>
+                    <div class="grid grid-cols-2 gap-4 text-sm text-slate-600">
+                        <div class="p-3 bg-slate-50 rounded"><strong>Cao huyết áp:</strong> Bào mòn thành mạch một cách thầm lặng.</div>
+                        <div class="p-3 bg-slate-50 rounded"><strong>Mỡ máu cao:</strong> Tạo mảng bám gây tắc nghẽn lưu thông máu.</div>
+                        <div class="p-3 bg-slate-50 rounded"><strong>Tiểu đường:</strong> Làm xơ vữa động mạch diễn ra nhanh hơn.</div>
+                        <div class="p-3 bg-slate-50 rounded"><strong>Thuốc lá:</strong> Khói thuốc làm tổn thương mạch máu cực mạnh.</div>
+                        <div class="p-3 bg-slate-50 rounded col-span-2"><strong>Béo phì & Lười vận động:</strong> Khiến rủi ro bị các bệnh khác tăng cao.</div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="fade-in delay-200">
+            <h2 class="text-3xl font-bold text-center text-slate-900 mb-12">Lối sống lành mạnh giúp giảm nguy cơ đột quỵ</h2>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-all text-center border-b-4 border-blue-500 flex flex-col items-center">
+                    <div class="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mb-5 shadow-inner">
+                        <img src="{{ url_for('static', path='/img/salad.png') }}" alt="Salad icon" class="w-8 h-8 object-contain">
+                    </div>
+                
+                    <h4 class="font-bold text-xl mb-3 text-slate-800">Ăn uống thông minh</h4>
+                    <p class="text-sm text-slate-600 leading-relaxed">Ưu tiên rau xanh, cá, ngũ cốc nguyên cám. Hạn chế tối đa mỡ động vật, đồ chiên rán và cắt giảm lượng muối, đường hằng ngày.</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-all text-center border-b-4 border-blue-500 flex flex-col items-center">
+                    <div class="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mb-5 shadow-inner">
+                        <img src="{{ url_for('static', path='/img/run.png') }}" alt="Runner icon" class="w-8 h-8 object-contain">
+                    </div>
+                    <h4 class="font-bold text-xl mb-3 text-slate-800">Vận động đều đặn</h4>
+                    <p class="text-sm text-slate-600 leading-relaxed">Chỉ cần 30 phút đi bộ, đạp xe hoặc bơi lội mỗi ngày (ít nhất 4 lần/tuần) giúp tim bơm máu tốt hơn và làm sạch hệ thống mạch máu.</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-all text-center border-b-4 border-blue-500 flex flex-col items-center">
+                    <div class="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mb-5 shadow-inner">
+                        <img src="{{ url_for('static', path='/img/no-smoking.png') }}" alt="No smoking icon" class="w-8 h-8 object-contain">
+                    </div>
+                    <h4 class="font-bold text-xl mb-3 text-slate-800">Tránh xa khói thuốc</h4>
+                    <p class="text-sm text-slate-600 leading-relaxed">Tuyệt đối không hút thuốc. Nếu bỏ thuốc lá từ 2-5 năm, nguy cơ đột quỵ của bạn sẽ giảm xuống ngang bằng với người chưa từng hút.</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-all text-center border-b-4 border-blue-500 flex flex-col items-center">
+                    <div class="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mb-5 shadow-inner">
+                        <img src="{{ url_for('static', path='/img/health.png') }}" alt="Health-checking box icon" class="w-8 h-8 object-contain">
+                    </div>
+                    <h4 class="font-bold text-xl mb-3 text-slate-800">Tầm soát định kỳ</h4>
+                    <p class="text-sm text-slate-600 leading-relaxed">Lắng nghe cơ thể, giữ ấm lúc giao mùa và khám sức khỏe định kỳ để đo lường, kiểm soát huyết áp và đường huyết trong vùng an toàn.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-100 text-gray-500 py-6 text-center mt-10 text-sm">
+        <p>© 2026 StrokePredict AI</p>
+    </footer>
+
+</body>
+</html>
