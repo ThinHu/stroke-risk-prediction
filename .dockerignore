@@ -1,0 +1,16 @@
+# .dockerignore
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+
+# Loại bỏ thư mục data thô và notebook vì server chỉ cần chạy dự đoán
+notebook.ipynb
+
+# Loại bỏ các file git
+.git/
+.gitignore
