@@ -8,13 +8,11 @@ def evaluate_and_plot(model, X_test, y_test, model_name="Model", threshold=None)
     If threshold is provided, it uses predict_proba() to apply the custom threshold.
     Otherwise, it defaults to standard predict().
     """
-    # Xử lý Threshold tùy chỉnh nếu có
     if threshold is not None and hasattr(model, "predict_proba"):
         y_probs = model.predict_proba(X_test)[:, 1]
         y_pred = (y_probs >= threshold).astype(int)
         display_name = f"{model_name} (Threshold {threshold})"
     else:
-        # Fallback về mặc định (dùng cho các model gọi hàm không có tham số threshold)
         y_pred = model.predict(X_test)
         display_name = model_name
     
