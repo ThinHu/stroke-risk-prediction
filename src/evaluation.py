@@ -24,7 +24,7 @@ def evaluate_and_plot(model, X_test, y_test, model_name="Model", threshold=None)
     
     cm = confusion_matrix(y_test, y_pred)
     plt.figure(figsize=(5, 3))
-    sns.heatmap(cm, annot=True, fmt='d', cmap='Greens' if 'Stacking' in model_name else 'Blues')
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
     plt.title(f'Confusion Matrix - {display_name}')
     plt.ylabel('Actual Label')
     plt.xlabel('Predicted Label')
