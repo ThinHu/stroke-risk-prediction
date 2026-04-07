@@ -45,7 +45,7 @@ def build_weka_mlp(n_features, n_classes=2):
 
 def build_lr_pipeline():
     """Builds a Logistic Regression pipeline scaling only numerical columns."""
-    num_cols = ['age', 'avg_glucose_level', 'bmi']
+    num_cols = ['age', 'glucose_log', 'bmi_log'] 
     preprocessor = ColumnTransformer(
         transformers=[
             ('num', StandardScaler(), num_cols)

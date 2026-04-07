@@ -45,12 +45,12 @@ def impute_bmi_with_rf(X):
     X.loc[missing_X.index, 'bmi'] = model.predict(missing_X.drop(columns=['bmi']))
     return X
 
-def discretize_features(X):
-    """Bins continuous variables into categories."""
-    X['bmi_cat'] = pd.cut(X['bmi'], bins=[0, 19, 25, 30, 40, 60, 10000], labels=False)
-    X['age_cat'] = pd.cut(X['age'], bins=[0, 13, 18, 45, 60, 100], labels=False)
-    X['glucose_cat'] = pd.cut(X['avg_glucose_level'], bins=[0, 90, 160, 230, 500], labels=False)
-    return X
+def log_transform(X):
+    """Applies log transformation to specified columns."""
+    X['glucose_log'] = np.log1p(X['avg_glucose_level'])
+    X['bmi_log'] = np.log1p(X['bmi'])
+
+    return X.drop(columns=['avg_glucose_level', 'bmi'], errors='ignore')
 
 def apply_smoteenn(X_train, y_train, categorical_cols):
     """Applies SMOTENC followed by ENN for aggressive balancing."""
