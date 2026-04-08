@@ -16,18 +16,30 @@ def clean_base_data(df):
     df = df.drop(columns=['id'], errors='ignore')
     return df[df['gender'] != 'Other'].copy()
 
-def impute_bmi_with_rf(X):
-    """Uses a Random Forest to predict and fill missing BMI values."""
-    train_X = X[X['bmi'].notna()]
-    missing_X = X[X['bmi'].isna()]
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.ensemble import RandomForestRegressor
+
+def impute_bmi_with_rf(X_train, X_test):
+    """
+    Uses Random Forest to predict and fill missing BMI values WITHOUT Data Leakage.
+    Model is trained ONLY on X_train's non-missing data, then applied to both sets.
+    """
+    # Tạo bản sao để tránh cảnh báo SettingWithCopyWarning của Pandas
+    X_train = X_train.copy()
+    X_test = X_test.copy()
+
+    # 1. Tách phần dữ liệu KHÔNG bị thiếu từ tập TRAIN để dạy model
+    train_valid = X_train[X_train['bmi'].notna()]
     
-    if missing_X.empty:
-        return X
+    if train_valid.empty:
+        return X_train, X_test # Safety check
         
-    X_train = train_X.drop(columns=['bmi'])
-    y_train = train_X['bmi']
+    X_fit = train_valid.drop(columns=['bmi'])
+    y_fit = train_valid['bmi']
     
-    # Preprocessor for imputation
+    # 2. Pipeline xử lý (Giữ nguyên code cực chuẩn của bạn)
     preprocess_bmi = ColumnTransformer(
         transformers=[
             ('cat', OneHotEncoder(handle_unknown='ignore'), ['work_type', 'smoking_status', 'gender', 'ever_married', 'Residence_type']),
@@ -41,9 +53,20 @@ def impute_bmi_with_rf(X):
         ('rf', RandomForestRegressor(n_estimators=500, max_depth=10, random_state=42, n_jobs=-1))
     ])
     
-    model.fit(X_train, y_train)
-    X.loc[missing_X.index, 'bmi'] = model.predict(missing_X.drop(columns=['bmi']))
-    return X
+    # 3. CHỈ HỌC (FIT) TRÊN TẬP TRAIN
+    model.fit(X_fit, y_fit)
+    
+    # 4. Dự đoán và điền khuyết cho tập TRAIN
+    missing_train = X_train[X_train['bmi'].isna()]
+    if not missing_train.empty:
+        X_train.loc[missing_train.index, 'bmi'] = model.predict(missing_train.drop(columns=['bmi']))
+        
+    # 5. Dự đoán và điền khuyết cho tập TEST (Sử dụng model đã học ở bước 3)
+    missing_test = X_test[X_test['bmi'].isna()]
+    if not missing_test.empty:
+        X_test.loc[missing_test.index, 'bmi'] = model.predict(missing_test.drop(columns=['bmi']))
+        
+    return X_train, X_test
 
 def log_transform(X):
     """Applies log transformation to specified columns."""
