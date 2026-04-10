@@ -53,15 +53,12 @@ def impute_bmi_with_rf(X_train, X_test):
         ('rf', RandomForestRegressor(n_estimators=500, max_depth=10, random_state=42, n_jobs=-1))
     ])
     
-    # 3. CHỈ HỌC (FIT) TRÊN TẬP TRAIN
     model.fit(X_fit, y_fit)
     
-    # 4. Dự đoán và điền khuyết cho tập TRAIN
     missing_train = X_train[X_train['bmi'].isna()]
     if not missing_train.empty:
         X_train.loc[missing_train.index, 'bmi'] = model.predict(missing_train.drop(columns=['bmi']))
         
-    # 5. Dự đoán và điền khuyết cho tập TEST (Sử dụng model đã học ở bước 3)
     missing_test = X_test[X_test['bmi'].isna()]
     if not missing_test.empty:
         X_test.loc[missing_test.index, 'bmi'] = model.predict(missing_test.drop(columns=['bmi']))
