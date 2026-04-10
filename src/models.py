@@ -42,17 +42,3 @@ def build_weka_mlp(n_features, n_classes=2):
         max_iter=500,                # Training time
         random_state=42
     )
-
-def build_lr_pipeline():
-    """Builds a Logistic Regression pipeline scaling only numerical columns."""
-    num_cols = ['age', 'glucose_log', 'bmi_log'] 
-    preprocessor = ColumnTransformer(
-        transformers=[
-            ('num', StandardScaler(), num_cols)
-        ], remainder='passthrough'
-    )
-    
-    return Pipeline(steps=[
-        ('preprocessor', preprocessor),
-        ('classifier', LogisticRegression(class_weight='balanced', random_state=42))
-    ])
